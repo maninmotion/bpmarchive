@@ -1,6 +1,6 @@
 __author__ = 'Kevin'
 from django.contrib import admin
-from artists.models import Artist
+from .models import Artist, Genre, Hometown
 
 
 class ArtistAdmin(admin.ModelAdmin):
@@ -8,4 +8,6 @@ class ArtistAdmin(admin.ModelAdmin):
         (None,  {'fields': ['']}),
     ]
 
-admin.site.register(ArtistAdmin)
+admin.site.register(Artist)
+admin.site.register(Genre)
+admin.site.register(Hometown)

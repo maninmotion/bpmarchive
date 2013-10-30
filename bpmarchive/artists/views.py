@@ -8,7 +8,7 @@ from models import Artist
 
 
 def index(request):
-    list_of_artists = Artist.objects
+    list_of_artists = Artist.objects.all()
     template = loader.get_template('artists/index.html')
     context = RequestContext(request, {
         'list_of_artists': list_of_artists

@@ -5,5 +5,15 @@
 {% block page_title %}Artists{% endblock page_title %}
 
 {% block content %}
-    <p>This is not the page you were looking for.</p>
+
+    {% if list_of_artists %}
+
+        <ul>
+        {% for artist in list_of_artists %}
+            <li><a href="{% url 'artist-detail' artist.id %}">{{ artist.name }}</a> | {{ artist.hometown }}</li>
+        {% endfor %}
+        </ul>
+
+    {% endif %}
+
 {% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Artist Details{% endblock %}
+
+{% block page_title %}Artist Details{% endblock page_title %}
+
+{% block content %}
+
+<dl>
+    <dt>Name:</dt>
+    <dd>{{ artist.name }}</dd>
+    <dt>Genre:</dt>
+    <dd>{{ artist.genre }}</dd>
+    <dt>Hometown:</dt>
+    <dd>{{ artist.hometown }}</dd>
+</dl>
+{% endblock content %}

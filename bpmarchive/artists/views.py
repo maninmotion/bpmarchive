@@ -10,13 +10,15 @@ from forms import ArtistForm
 
 
 def index(request):
-    #ArtistFormset = formset_factory(ArtistForm)
-    ArtistFormset = ArtistForm(Artist)
+    ArtistFormset = formset_factory(ArtistForm)
+    #ArtistFormset = ArtistForm(Artist)
     try:
         list_of_artists = Artist.objects.order_by('name')[:5]
     except Artist.DoesNotExist:
         raise Http404
-    return render(request, 'artists/index.html', {'list_of_artists': list_of_artists, 'ArtistFormset': ArtistFormset})
+
+    formset = ArtistFormset()
+    return render(request, 'artists/index.html', {'list_of_artists': list_of_artists, 'formset': formset})
 
 
 def details(request, artist_id):

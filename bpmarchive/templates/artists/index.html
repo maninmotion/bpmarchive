@@ -16,4 +16,12 @@
 
     {% endif %}
 
+    <div class="accordion">
+    <h1 class="accordion-heading">Add new Artist</h1>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form }}
+    {% endfor %}
+    </div>
+
 {% endblock content %}

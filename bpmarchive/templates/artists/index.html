@@ -16,14 +16,22 @@
 
     {% endif %}
 
-    <div class="accordion">
-    <h1 class="accordion-heading">Add new Artist</h1>
-        <form method="post" action="">
-            {{ formset }}
-            {% for form in formset %}
-                {{ form }}
-            {% endfor %}
-        </form>
+    <div class="accordion" id="accordion-artist">
+        <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-artist" href="#newForm">
+                Add New Artist</a>
+        </div>
+            <div id="newForm" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <form method="post" action="">
+                        <table>
+                            {{  artist_formset }}
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock content %}

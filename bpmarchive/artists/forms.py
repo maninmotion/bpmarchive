@@ -14,6 +14,19 @@ class ArtistForm(ModelForm):
     fields = ['name', 'hometown', 'genre']
 
 
+class HometownForm(ModelForm):
+    class Meta:
+        model = Hometown
+        form_class = Hometown
+    fields = ['name', 'state', 'country']
+
+class GenreForm(ModelForm):
+    class Meta:
+        model = Genre
+        form_class = Genre
+    fields = ['name']
+
+
 ArtistFormset = formset_factory(ArtistForm)
 ArtistGenreFormset = inlineformset_factory(Genre, Artist, extra=1)
 ArtistHometownFormset = inlineformset_factory(Hometown, Artist, extra=1)

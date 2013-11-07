@@ -27,8 +27,10 @@
                     <form method="post" action="/artists/create/">
                         {% csrf_token %}
                         <div>
-                            {{  ArtistForm }}
-                            <button name="submit" id="newArtist" class="success">submit</button>
+                            {{ ArtistForm }}
+                        </div>
+                        <div class="span6 right">
+                            <button name="submit" id="newArtist" class="btn-success">submit</button>
                         </div>
                     </form>
                 </div>

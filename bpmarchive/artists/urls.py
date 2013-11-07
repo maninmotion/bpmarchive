@@ -13,8 +13,9 @@ urlpatterns = patterns('',
 
                         url(r'^(?P<artist_id>\d+)/$', DisplayArtistView.as_view(), name='artist-detail'),
                         url(r'^create/$', ArtistCreateView.as_view(), name='artist-add'),
+                        url(r'^$', ArtistsListView.as_view(), name='artist-home'),
+
                         #url(r'^$', TemplateView.as_view(template_name='artists/index.html')),
-                        url(r'^$', ArtistsListView.as_view()),
 
                        )
 

@@ -1,13 +1,15 @@
 # Create your views here.
-from django.http import Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, FormView
+from django.views import generic
 #from django.core.urlresolvers import reverse
+from braces.views import LoginRequiredMixin
 
 from models import Artist
-from forms import ArtistFormset, ArtistGenreFormset, ArtistHometownFormset
+from forms import ArtistForm, ArtistFormset, ArtistGenreFormset, ArtistHometownFormset
 
 
 class ArtistsListView(TemplateView):
@@ -20,6 +22,7 @@ class ArtistsListView(TemplateView):
         context['artist_hometown_formset'] = ArtistHometownFormset()
         context['artist_genre_formset'] = ArtistGenreFormset()
         context['artist_formset'] = ArtistFormset()
+        context['ArtistForm'] = ArtistForm()
         return context
 
 
@@ -30,6 +33,41 @@ class DisplayArtistView(TemplateView):
         context = super(DisplayArtistView, self).get_context_data(**kwargs)
         context['artist'] = Artist.objects.get(pk=self.kwargs.get('artist_id', None))
         return context
+
+
+class ArtistCreateView(generic.CreateView):
+#class ArtistCreateView(FormView):
+    template_name = "artists/index.html"
+    model = Artist
+    form_class = ArtistForm
+    fields = ['name', 'hometown', 'genre']
+    success_url = "artists/index.html"
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        artist_form = context['artist_formset']
+        if artist_form.is_valid():
+            self.object = form.save()
+            artist_form.instance = self.object
+            artist_form.save()
+            return HttpResponseRedirect('/artist/index.html')
+
+        return HttpResponseRedirect('/artist/index.html')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        #artist_form = form['artist_formset']
+        if form.is_valid():
+            #process data
+            self.object = form.save()
+            #artist_form.instance = self.object
+            #artist_form.save()
+            return HttpResponseRedirect('/artists/')
+        else:
+            return HttpResponseRedirect('/artists/')
+
+
+
 
 
 '''

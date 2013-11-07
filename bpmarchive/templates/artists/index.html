@@ -24,10 +24,12 @@
         </div>
             <div id="newForm" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <form method="post" action="">
-                        <table>
-                            {{  artist_formset }}
-                        </table>
+                    <form method="post" action="/artists/create/">
+                        {% csrf_token %}
+                        <div>
+                            {{  ArtistForm }}
+                            <button name="submit" id="newArtist" class="success">submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

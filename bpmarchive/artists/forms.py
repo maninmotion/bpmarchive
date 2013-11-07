@@ -10,6 +10,7 @@ from django.forms.models import inlineformset_factory
 class ArtistForm(ModelForm):
     class Meta:
         model = Artist
+        form_class = Artist
     fields = ['name', 'hometown', 'genre']
 
 

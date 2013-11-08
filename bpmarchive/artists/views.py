@@ -43,16 +43,16 @@ class ArtistCreateView(generic.CreateView):
     fields = ['name', 'hometown', 'genre']
     success_url = "artists/index.html"
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        artist_form = context['artist_formset']
-        if artist_form.is_valid():
-            self.object = form.save()
-            artist_form.instance = self.object
-            artist_form.save()
-            return HttpResponseRedirect('/artist/index.html')
+#    def form_valid(self, form):
+#        context = self.get_context_data()
+#        artist_form = context['artist_formset']
+#        if artist_form.is_valid():
+#            self.object = form.save()
+#            artist_form.instance = self.object
+#            artist_form.save()
+#            return HttpResponseRedirect('/artist/index.html')
 
-        return HttpResponseRedirect('/artist/index.html')
+#        return HttpResponseRedirect('/artist/index.html')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

@@ -20,6 +20,7 @@ class HometownForm(ModelForm):
         form_class = Hometown
     fields = ['name', 'state', 'country']
 
+
 class GenreForm(ModelForm):
     class Meta:
         model = Genre

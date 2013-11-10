@@ -47,6 +47,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bpmarchive',
+
         'USER': 'kmiller',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -196,10 +197,13 @@ THIRD_PARTY_APPS = (
     # Database migration helpers:
     'south',
     'rest_framework',
+    'widget_tweaks',
 )
 
 # Apps specific for this project go here.
+# Toggle these two before running manage.py vs runserver
 LOCAL_APPS = (
+    #'bpmarchive.artists',
     'artists',
 )
 

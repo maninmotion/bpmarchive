@@ -29,7 +29,12 @@
                         <div>
                             {{ ArtistForm }}
                         </div>
-                        <div class="span6 right">
+                        <div>
+                            {% load widget_tweaks %}
+                            Name: {% render_field ArtistForm.name %}
+                            Genre: {% render_field ArtistForm.genre class+="select2" %}
+                        </div>
+                        <div class="span9 right">
                             <button name="submit" id="newArtist" class="btn-success">submit</button>
                         </div>
                     </form>

@@ -7,9 +7,11 @@ from django.views.generic import TemplateView, FormView
 from django.views import generic
 #from django.core.urlresolvers import reverse
 from braces.views import LoginRequiredMixin
+from rest_framework import viewsets
 
-from models import Artist
+from models import Artist, Genre
 from forms import ArtistForm, ArtistFormset, ArtistGenreFormset, ArtistHometownFormset
+from serializers import GenreSerializer
 
 
 class ArtistsListView(TemplateView):
@@ -66,6 +68,10 @@ class ArtistCreateView(generic.CreateView):
         else:
             return HttpResponseRedirect('/artists/')
 
+
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
 
 

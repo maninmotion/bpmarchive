@@ -14,11 +14,20 @@ class Hometown(models.Model):
         return self.name
 
 
-class Genre(models.Model):
-    name = models.CharField(max_length=200)
+class GenreType(models.Model):
+    name = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.name
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=200)
+    genretype = models.ForeignKey(GenreType)
+
+    def __unicode__(self):
+        return '%s > %s' % (self.genretype.name, self.name)
+        #return GenreType + " | " + self.name
 
 
 class Artist(models.Model):

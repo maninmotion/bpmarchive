@@ -24,23 +24,56 @@
         </div>
             <div id="newForm" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <form method="post" action="/artists/create/">
-                        {% csrf_token %}
-                        <div>
-                            {{ ArtistForm }}
-                        </div>
-                        <div>
-                            {% load widget_tweaks %}
-                            Name: {% render_field ArtistForm.name %}
-                            Genre: {% render_field ArtistForm.genre class+="select2" %}
-                        </div>
-                        <div class="span9 right">
-                            <button name="submit" id="newArtist" class="btn-success">submit</button>
-                        </div>
-                    </form>
+                    <div class="row">
+                        <form method="post" action="/artists/create/" class="well form-inline span8 offset2 custom-form">
+                            {% csrf_token %}
+                            <div class="control-group">
+                                <div class="controls">
+                                    {# ArtistForm #}
+                                    {% load widget_tweaks %}
+                                    <label class="control-label" for="artist_name">Name:</label>
+                                    {% render_field ArtistForm.name id+="artist_name" %}
+                                    <label class="control-label" for="genre_select">Genre:</label>
+                                    <input type="hidden" id="genre_select" width="300px;"/>
+                                    {# render_field ArtistForm.genre id+="genre_select" #}
+                                    <button class="btn btn-primary btn-small" data-toggle="modal"
+                                            data-target="#genre_create">
+                                        add new genre
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="span9 right">
+                                    <button name="submit" id="newArtist" class="btn-success">submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- begin modal -->
+    <div class="modal fade" id="genre_create" tabindex="-1" role="dialog" aria-labelledby="genre_create-label"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add Genre</h4>
+          </div>
+          <div class="modal-body">
+            {% render_field GenreForm.name %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <!-- begin modal -->
+
 
 {% endblock content %}

@@ -25,9 +25,10 @@ class GenreForm(ModelForm):
     class Meta:
         model = Genre
         form_class = Genre
-    fields = ['name']
+    fields = ['name', 'genretype']
 
 
 ArtistFormset = formset_factory(ArtistForm)
+GenreFormset = formset_factory(GenreForm)
 ArtistGenreFormset = inlineformset_factory(Genre, Artist, extra=1)
 ArtistHometownFormset = inlineformset_factory(Hometown, Artist, extra=1)

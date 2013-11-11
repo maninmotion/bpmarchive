@@ -10,7 +10,7 @@ from braces.views import LoginRequiredMixin
 from rest_framework import viewsets
 
 from models import Artist, Genre
-from forms import ArtistForm, ArtistFormset, ArtistGenreFormset, ArtistHometownFormset
+from forms import ArtistForm, ArtistFormset, ArtistGenreFormset, ArtistHometownFormset, GenreFormset, GenreForm
 from serializers import GenreSerializer
 
 
@@ -25,6 +25,7 @@ class ArtistsListView(TemplateView):
         context['artist_genre_formset'] = ArtistGenreFormset()
         context['artist_formset'] = ArtistFormset()
         context['ArtistForm'] = ArtistForm()
+        context['GenreForm'] = GenreForm()
         return context
 
 
@@ -45,16 +46,16 @@ class ArtistCreateView(generic.CreateView):
     fields = ['name', 'hometown', 'genre']
     success_url = "artists/index.html"
 
-#    def form_valid(self, form):
-#        context = self.get_context_data()
-#        artist_form = context['artist_formset']
-#        if artist_form.is_valid():
-#            self.object = form.save()
-#            artist_form.instance = self.object
-#            artist_form.save()
-#            return HttpResponseRedirect('/artist/index.html')
+    #    def form_valid(self, form):
+    #        context = self.get_context_data()
+    #        artist_form = context['artist_formset']
+    #        if artist_form.is_valid():
+    #            self.object = form.save()
+    #            artist_form.instance = self.object
+    #            artist_form.save()
+    #            return HttpResponseRedirect('/artist/index.html')
 
-#        return HttpResponseRedirect('/artist/index.html')
+    #        return HttpResponseRedirect('/artist/index.html')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -64,6 +65,25 @@ class ArtistCreateView(generic.CreateView):
             self.object = form.save()
             #artist_form.instance = self.object
             #artist_form.save()
+            return HttpResponseRedirect('/artists/')
+        else:
+            return HttpResponseRedirect('/artists/')
+
+
+class GenreCreateView(generic.CreateView):
+#class ArtistCreateView(FormView):
+    template_name = "artists/genreCreate.html"
+    model = Genre
+    form_class = GenreForm
+    fields = ['name', 'genretype']
+    success_url = "artists/genreCreate.html"
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        #artist_form = form['artist_formset']
+        if form.is_valid():
+            #process data
+            self.object = form.save()
             return HttpResponseRedirect('/artists/')
         else:
             return HttpResponseRedirect('/artists/')

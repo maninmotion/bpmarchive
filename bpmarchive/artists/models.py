@@ -5,6 +5,7 @@ __author__ = 'Kevin'
 from django.db import models
 
 
+'''
 class Hometown(models.Model):
     name = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
@@ -12,6 +13,7 @@ class Hometown(models.Model):
 
     def __unicode__(self):
         return self.name
+'''
 
 
 class GenreType(models.Model):
@@ -32,7 +34,7 @@ class Genre(models.Model):
 
 class Artist(models.Model):
     name = models.CharField(max_length=200)
-    hometown = models.ForeignKey(Hometown)
+    #hometown = models.ForeignKey(Hometown)
     genre = models.ForeignKey(Genre)
 
     def __unicode__(self):

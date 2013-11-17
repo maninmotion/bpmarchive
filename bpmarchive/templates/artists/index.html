@@ -10,7 +10,7 @@
 
         <ul>
         {% for artist in list_of_artists %}
-            <li><a href="{% url 'artist-detail' artist.id %}">{{ artist.name }}</a> | {{ artist.hometown }}</li>
+            <li><a href="{% url 'artist-detail' artist.id %}">{{ artist.name }}</a> | {{ artist.genre }}</li>
         {% endfor %}
         </ul>
 
@@ -34,7 +34,7 @@
                                     <label class="control-label" for="artist_name">Name:</label>
                                     {% render_field ArtistForm.name id+="artist_name" %}
                                     <label class="control-label" for="genre_select">Genre:</label>
-                                    <input type="hidden" id="genre_select" width="300px;"/>
+                                    <input type="hidden" id="genre_select" name="genre" width="300px;"/>
                                     {# render_field ArtistForm.genre id+="genre_select" #}
                                     <button class="btn btn-primary btn-small" data-toggle="modal"
                                             data-target="#genre_create">
@@ -59,17 +59,35 @@
          aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
+          <form method="post" action="javascript:void(0)" id="genre_create_form" class="form-inline custom-form">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Add Genre</h4>
           </div>
           <div class="modal-body">
-            {% render_field GenreForm.name %}
+              <div id="genre-create-message" class="alert alert-success"></div>
+                  {% csrf_token %}
+                  <div class="control-group">
+                      <div class="controls genre-controls">
+                          {% load widget_tweaks %}
+                          <div class="row-fluid">
+                              <div class="span6">
+                                <label class="control-label" for="artist_name">Name:</label>
+                                {% render_field GenreForm.name id+="genre_name" %}
+                              </div>
+                              <div class="span6">
+                                  <label class="control-label" for="genre_type">Type:</label>
+                                  {% render_field GenreForm.genretype id+="genre_type" width+="300px;" class+="span6"  %}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button name="submit" id="newArtist" class="btn-success">submit</button>
           </div>
+          </form>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

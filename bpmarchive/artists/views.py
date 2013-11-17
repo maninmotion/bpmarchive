@@ -1,5 +1,6 @@
 # Create your views here.
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory
@@ -7,10 +8,13 @@ from django.views.generic import TemplateView, FormView
 from django.views import generic
 #from django.core.urlresolvers import reverse
 from braces.views import LoginRequiredMixin
-from rest_framework import viewsets
+from rest_framework import viewsets, generics, views
+from rest_framework import filters
+from rest_framework.views import APIView
+import django_filters
 
 from models import Artist, Genre
-from forms import ArtistForm, ArtistFormset, ArtistGenreFormset, ArtistHometownFormset, GenreFormset, GenreForm
+from forms import ArtistForm, ArtistFormset, ArtistGenreFormset,  GenreFormset, GenreForm
 from serializers import GenreSerializer
 
 
@@ -21,7 +25,7 @@ class ArtistsListView(TemplateView):
         #ArtistFormset = formset_factory(ArtistForm)
         context = super(ArtistsListView, self).get_context_data(**kwargs)
         context['list_of_artists'] = Artist.objects.order_by('name')[:5]
-        context['artist_hometown_formset'] = ArtistHometownFormset()
+        #context['artist_hometown_formset'] = ArtistHometownFormset()
         context['artist_genre_formset'] = ArtistGenreFormset()
         context['artist_formset'] = ArtistFormset()
         context['ArtistForm'] = ArtistForm()
@@ -43,19 +47,9 @@ class ArtistCreateView(generic.CreateView):
     template_name = "artists/index.html"
     model = Artist
     form_class = ArtistForm
-    fields = ['name', 'hometown', 'genre']
+    #fields = ['name', 'hometown', 'genre']
+    fields = ['name', 'genre']
     success_url = "artists/index.html"
-
-    #    def form_valid(self, form):
-    #        context = self.get_context_data()
-    #        artist_form = context['artist_formset']
-    #        if artist_form.is_valid():
-    #            self.object = form.save()
-    #            artist_form.instance = self.object
-    #            artist_form.save()
-    #            return HttpResponseRedirect('/artist/index.html')
-
-    #        return HttpResponseRedirect('/artist/index.html')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -76,22 +70,60 @@ class GenreCreateView(generic.CreateView):
     model = Genre
     form_class = GenreForm
     fields = ['name', 'genretype']
-    success_url = "artists/genreCreate.html"
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         #artist_form = form['artist_formset']
         if form.is_valid():
             #process data
+            message = 'Success'
             self.object = form.save()
-            return HttpResponseRedirect('/artists/')
+            return HttpResponse(message)
         else:
-            return HttpResponseRedirect('/artists/')
+            message = 'Error'
+            return HttpResponse(message)
 
 
+'''
 class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all().order_by('genretype', 'name')
+    serializer_class = GenreSerializer
+'''
+
+
+#class GenreViewSet(APIView):
+#class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(generics.ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    #model = serializer_class.Meta.model
+    search_fields = ('name', 'genretype')
+    #filter_backends = (filters.DjangoFilterBackend,)
+    #queryset = Genre.objects.all()
+
+    def get_queryset(self, **kwargs):
+        queryset = Genre.objects.all().order_by('genretype', 'name').distinct()
+        search_action = self.kwargs['action']
+        search_term = self.request.QUERY_PARAMS['q']
+
+        if search_term is not None and search_action == 'search':
+            queryset = queryset.filter(Q(genretype__name__icontains=search_term) | Q(name__icontains=search_term))
+            #queryset = queryset.filter(name__icontains=search_term)
+        return queryset
+
+
+
+
+'''
+    def get(self, request, format='JSON'):
+        queryset = Genre.objects.all().order_by('genretype', 'name')
+        #searchterm = request.QUERY_PARAMS.get('term', None)
+        searchterm = request['term']
+        if searchterm is not None:
+            queryset = queryset.filter(name=searchterm)
+        return queryset
+'''
+
 
 
 

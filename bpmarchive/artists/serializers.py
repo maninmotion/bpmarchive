@@ -1,5 +1,5 @@
 __author__ = 'Kevin'
-from .models import Genre, GenreType, Hometown
+from .models import Genre, GenreType
 from rest_framework import serializers
 
 
@@ -12,4 +12,4 @@ class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         #fields = ('name', 'genrelabel')
-        fields = ('name', 'genretype')
+        fields = ('id', 'name', 'genretype')

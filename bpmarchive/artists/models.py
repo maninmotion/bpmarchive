@@ -41,5 +41,21 @@ class Artist(models.Model):
         return self.name
 
 
+class Album(models.Model):
+    name = models.CharField(max_length=200)
+    year = models.IntegerField(default=1999)
+    artist = models.ForeignKey('Artist')
+
+    def __unicode__(self):
+        return self.name
+
+
+class Track(models.Model):
+    name = models.CharField(max_length=200)
+    bpm = models.IntegerField()
+    album = models.ForeignKey('Album')
+
+    def __unicode__(self):
+        return self.name
 
 

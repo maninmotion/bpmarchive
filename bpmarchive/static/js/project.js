@@ -47,6 +47,44 @@ $(document).ready(function () {
         });
     });
 
+    $('#trackTableList').dataTable({
+        'bProcessing': true,
+        'bServerSide': true,
+        'sAjaxSource': '/artists/tracks/all/',
+        'bAutoWidth': 'true'
+    });
+
+    $('#albumTableList').dataTable({
+        'bProcessing': true,
+        'bServerSide': true,
+        'sAjaxSource': '/artists/albums/all/',
+        'bAutoWidth': 'true',
+        /*
+        'fnServerData': function (sSource, aoData, fnCallback) {
+              $.ajax({
+                "dataType": 'json',
+                "type": "GET",
+                "url": sSource,
+                "data": aoData,
+                "success":  function (msg) {
+                    console.log(msg);
+                    //var json = $.evalJSON(msg.d);
+                    fnCallback(msg);
+                }
+            });
+        },
+        'aoColumns':
+            [
+                {
+                    "mData": "name"
+                },
+                {
+                    "mData": "artist"
+                }
+            ]
+         */
+    });
+
 });
 
 function formatGenreList(data) {

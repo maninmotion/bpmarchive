@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Tracks{% endblock %}
+
+{% block page_title %}Tracks{% endblock page_title %}
+
+{% block content %}
+
+    {% if list_of_tracks %}
+
+        <ul>
+        {% for track in list_of_tracks %}
+            <li><a href="/artists{% url 'track-detail' track.id %}">{{ track.name }}</a> | {{ track.album }} | {{ track.bpm }}</li>
+        {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    <div class="accordion" id="accordion-track">
+        <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-track" href="#newForm">
+                Add New Track</a>
+        </div>
+            <div id="newForm" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="row">
+                        <form method="post" action="/artists/create/" class="well form-inline span8 offset2 custom-form">
+                            {% csrf_token %}
+                            <div class="control-group">
+                                <div class="controls">
+                                    {% load widget_tweaks %}
+                                    <label class="control-label" for="track_name">Title:</label>
+                                    {% render_field TrackForm.name id+="track_name" %}
+                                    <label class="control-label" for="track_bpm">BPM:</label>
+                                    {% render_field TrackForm.bpm id+="track_bpm" %}
+
+
+                                    <label class="control-label" for="artist_select">Artist:</label>
+                                    <input type="hidden" id="artist_select" name="artist" width="300px;"/>
+
+                                    {# render_field ArtistForm.genre id+="genre_select" #}
+                                    <button class="btn btn-primary btn-small" data-toggle="modal"
+                                            data-target="#genre_create">
+                                        add new genre
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="span9 right">
+                                    <button name="submit" id="newTrack" class="btn-success">submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- begin modal -->
+    <div class="modal fade" id="genre_create" tabindex="-1" role="dialog" aria-labelledby="genre_create-label"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form method="post" action="javascript:void(0)" id="genre_create_form" class="form-inline custom-form">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add Genre</h4>
+          </div>
+          <div class="modal-body">
+              <div id="genre-create-message" class="alert alert-success"></div>
+                  {% csrf_token %}
+                  <div class="control-group">
+                      <div class="controls genre-controls">
+                          {% load widget_tweaks %}
+                          <div class="row-fluid">
+                              <div class="span6">
+                                <label class="control-label" for="artist_name">Name:</label>
+                                {% render_field GenreForm.name id+="genre_name" %}
+                              </div>
+                              <div class="span6">
+                                  <label class="control-label" for="genre_type">Type:</label>
+                                  {% render_field GenreForm.genretype id+="genre_type" width+="300px;" class+="span6"  %}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button name="submit" id="newArtist" class="btn-success">submit</button>
+          </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <!-- begin modal -->
+
+
+{% endblock content %}

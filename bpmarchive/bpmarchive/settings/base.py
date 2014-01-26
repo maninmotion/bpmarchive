@@ -198,13 +198,16 @@ THIRD_PARTY_APPS = (
     'south',
     'rest_framework',
     'widget_tweaks',
+    'django_datatables_view',
 )
 
 # Apps specific for this project go here.
 # Toggle these two before running manage.py vs runserver
 LOCAL_APPS = (
     #'bpmarchive.artists',
+    #'bpmarchive.tracks',
     'artists',
+    #'tracks',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

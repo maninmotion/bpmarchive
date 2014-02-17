@@ -8,7 +8,7 @@ $(document).ready(function () {
         placeholder: "select a genre",
         ajax: {
             //url: "/artists/genres/?format=json",
-            url: "/artists/genres/search?format=json",
+            url: "/artists/genres/search/?format=json",
             dataType: 'json',
             data: function (term, page) {
                 return {
@@ -25,7 +25,7 @@ $(document).ready(function () {
         }
     });
 
-    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {};
     $("#genre_type").select2({
         placeholder: "Select a type"
     });
@@ -51,6 +51,13 @@ $(document).ready(function () {
         'bProcessing': true,
         'bServerSide': true,
         'sAjaxSource': '/artists/tracks/all/',
+        'bAutoWidth': 'true'
+    });
+
+    $('#artistTableList').dataTable({
+        'bProcessing': true,
+        'bServerSide': true,
+        'sAjaxSource': '/artists/artists/all/',
         'bAutoWidth': 'true'
     });
 

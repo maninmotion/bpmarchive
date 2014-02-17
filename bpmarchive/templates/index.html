@@ -10,76 +10,180 @@
     <div class="row">
         <!-- main content -->
         <div class="col-sm-8">
-            <div class="accordion" id="accordion-track">
-                <div class="accordion-group">
 
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-track"
-                           href="#tracks">
-                            <span class="icon-music"></span> Tracks</a>
+            <!-- begin accordion group -->
+            <div class="panel-group" id="accordion">
+
+                <!-- begin Tracks Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#tracksPanel">
+                              Tracks
+                            </a>
+                        </h4>
                     </div>
-                    <div id="tracks" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table id="trackTableList" class="table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>title</th>
-                                            <th>album</th>
-                                            <th>bpm</th>
-                                        </tr>
+                    <div id="tracksPanel" class="panel-collapse collapse ">
+                          <div class="panel-body">
+                              <table id="trackTableList" class="table-bordered">
+                                  <thead>
+                                  <tr>
+                                      <th>title</th>
+                                      <th>artist</th>
+                                      <th>album</th>
+                                      <th>bpm</th>
+                                  </tr>
 
-                                        </thead>
-                                        <tbody>
+                                  </thead>
+                                  <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                  </tbody>
+                              </table>
+                          </div>
                     </div>
-
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-album"
-                           href="#albums">
-                            <span class="icon-music"></span> Albums</a>
-                    </div>
-                    <div id="albums" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table id="albumTableList" class="table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>name</th>
-                                                <th>artist</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-artist"
-                           href="#artists">
-                            <span class="icon-music"></span> Artists</a>
-                    </div>
-                    <div id="artists" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            Artists
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+                <!-- end Tracks Panel -->
 
+                <!-- begin Albums Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#albumPanel">
+                                Albums
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="albumPanel" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                            <table id="albumTableList" class="table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>name</th>
+                                    <th>artist</th>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end Albums Panel -->
+
+                <!-- begin Artists Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#artistsPanel">
+                                Artists
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="artistsPanel" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                            <table id="artistTableList" class="table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>name</th>
+                                    <th>genre</th>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end Artists Panel -->
+
+                <!-- begin New Track Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#newTrackPanel">
+                                New Track
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="newTrackPanel" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                            <form method="post" action="/artists/tracks/create/" class="well form-inline span8 offset2 custom-form">
+                                {% csrf_token %}
+                                <div class="control-group">
+                                    <div class="controls">
+                                        {# TracksForm #}
+                                        {% load widget_tweaks %}
+                                        <label class="control-label" for="track_name">Name:</label>
+                                        {% render_field TrackForm.name id+="track_name" %}
+                                        <!--
+                                        <label class="control-label" for="genre_select">Genre:</label>
+                                        <input type="hidden" id="genre_select" name="genre" width="300px;"/>
+                                        {# render_field ArtistForm.genre id+="genre_select" #}
+                                        <button class="btn btn-primary btn-small" data-toggle="modal"
+                                                data-target="#genre_create">
+                                            add new genre
+                                        </button>
+                                        -->
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="span9 right">
+                                        <button name="submit" id="newArtist" class="btn-success">submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- end New Track Panel -->
+
+                <!-- begin New Artist Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#newArtistPanel">
+                                New Artist
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="newArtistPanel" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                            <form method="post" action="/artists/create/" class="well form-inline span8 offset2 custom-form">
+                                {% csrf_token %}
+                                <div class="control-group">
+                                    <div class="controls">
+                                        {# ArtistForm #}
+                                        {% load widget_tweaks %}
+                                        <label class="control-label" for="artist_name">Name:</label>
+                                        {% render_field ArtistForm.name id+="artist_name" %}
+                                        <label class="control-label" for="genre_select">Genre:</label>
+                                        <input type="hidden" id="genre_select" name="genre" width="300px;"/>
+                                        {# render_field ArtistForm.genre id+="genre_select" #}
+                                        <button class="btn btn-primary btn-small" data-toggle="modal"
+                                                data-target="#genre_create">
+                                            add new genre
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="span9 right">
+                                        <button name="submit" id="newArtist" class="btn-success">submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- end New Track Panel -->
+
+
+
+            </div>
+            <!-- end accordion group -->
 
         </div>
         <!-- right gutter -->

@@ -205,6 +205,7 @@ THIRD_PARTY_APPS = (
 # Toggle these two before running manage.py vs runserver
 LOCAL_APPS = (
     #'bpmarchive.artists',
+    #'bpmarchive.bpmarchive.artists',
     #'bpmarchive.tracks',
     'artists',
     #'tracks',

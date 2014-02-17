@@ -20,6 +20,16 @@ from forms import ArtistForm, ArtistFormset, ArtistGenreFormset,  GenreFormset, 
 from serializers import GenreSerializer, TrackSerializer, AlbumSerializer, ArtistSerializer
 
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['ArtistForm'] = ArtistForm()
+        context['GenreForm'] = GenreForm()
+        return context
+
+
 class ArtistsListView(TemplateView):
     template_name = "artists/index.html"
 
@@ -64,6 +74,30 @@ class ArtistCreateView(generic.CreateView):
             return HttpResponseRedirect('/artists/')
         else:
             return HttpResponseRedirect('/artists/')
+
+
+# https://pypi.python.org/pypi/django-datatables-view
+class ArtistViewSet(BaseDatatableView):
+    model = Artist
+    columns = ['name', 'genre.name']
+    order_columns = ['name', 'genre']
+    max_display_length = 100
+
+    def render_column(self, row, column):
+        if column == 'genre.name':
+            return '%s' % row.genre
+        else:
+            return super(ArtistViewSet, self).render_column(row, column)
+
+    def filter_queryset(self, qs):
+        if self.request.method == 'POST':
+            sSearch = self.request.POST.get('sSearch', None)
+        elif self.request.method == 'GET':
+            sSearch = self.request.GET.get('sSearch', None)
+
+        if sSearch:
+            qs = qs.filter(name__icontains=sSearch)
+        return qs
 
 
 class GenreCreateView(generic.CreateView):
@@ -293,13 +327,18 @@ class TrackCreateView(generic.CreateView):
 
 class TrackViewSet(BaseDatatableView):
     model = Track
-    columns = ['name', 'album.name', 'bpm']
-    order_columns = ['name', 'album', 'bpm']
+
+    columns = ['name', 'album.artist', 'album.name', 'bpm']
+# TODO: need to deal with ordering of track columns.
+    order_columns = ['name', 'album.artist', 'album.name', 'bpm']
+
     max_display_length = 100
 
     def render_column(self, row, column):
-        if column == 'artist':
-            return '%s' % row.artist
+        if column == 'album.artist':
+            return '%s' % row.album.artist
+        elif column == 'album.name':
+            return '%s' % row.album.name
         else:
             return super(TrackViewSet, self).render_column(row, column)
 
